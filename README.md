@@ -41,3 +41,11 @@ python manage.py migrate
 ```sh
 python manage.py runserver
 ```
+# Запуск redis в Docker
+```sh
+docker run -d -p 6379:6379 --name redis redis
+```
+# Запуск Celery worker
+```sh
+celery -A aggregator worker -l info
+```

@@ -1,8 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 from django.http import HttpResponse
+
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
+from celery import shared_task
 
 from news.models import NewsItem
 from news.serializers import NewsItemSerializer
@@ -13,6 +15,7 @@ allowed_url_params = ['order', 'offset', 'limit']
 allowed_order_params = ['id', 'title', 'url', 'created']
 
 
+@shared_task
 def save_news(request):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, "html.parser")
